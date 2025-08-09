@@ -9,6 +9,7 @@ Modern portfolio using Next.js App Router, Tailwind CSS, shadcn/ui (New York), a
 - [x] Initialize shadcn/ui (New York) and add core components (button, card, input, textarea, navigation-menu, avatar)
 - [x] Header navigation using shadcn NavigationMenu
 - [x] Pages: `about`, `resume`, `portfolio`, `contact`
+- [x] Responsive layout wrapper with breakpoint containers
 - [x] Firebase client (modular): `src/lib/firebase-client.ts`
 - [x] Realtime data from Firestore
   - `profiles` → About (with avatar from Storage)
