@@ -7,10 +7,15 @@ export async function getStorageUrl(path: string): Promise<string> {
 }
 
 export async function fetchJsonFromStorage<T>(path: string): Promise<T> {
-  const url = await getStorageUrl(path);
-  const res = await fetch(url, { cache: "no-store" });
-  if (!res.ok) throw new Error(`Failed to fetch ${path}`);
-  return (await res.json()) as T;
+  try {
+    const url = await getStorageUrl(path);
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error(`Failed to fetch ${path}`);
+    return (await res.json()) as T;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 }
 
 

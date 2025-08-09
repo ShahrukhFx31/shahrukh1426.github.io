@@ -9,24 +9,24 @@ export function Header() {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/about" legacyBehavior passHref>
-                <NavigationMenuLink className="px-3 py-2">About</NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink className="px-3 py-2" asChild>
+                <Link href="/about">About</Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/resume" legacyBehavior passHref>
-                <NavigationMenuLink className="px-3 py-2">Resume</NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink className="px-3 py-2" asChild>
+                <Link href="/resume">Resume</Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/portfolio" legacyBehavior passHref>
-                <NavigationMenuLink className="px-3 py-2">Portfolio</NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink className="px-3 py-2" asChild>
+                <Link href="/portfolio">Portfolio</Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/contact" legacyBehavior passHref>
-                <NavigationMenuLink className="px-3 py-2">Contact</NavigationMenuLink>
-              </Link>
+              <NavigationMenuLink className="px-3 py-2" asChild>
+                <Link href="/contact">Contact</Link>
+              </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
