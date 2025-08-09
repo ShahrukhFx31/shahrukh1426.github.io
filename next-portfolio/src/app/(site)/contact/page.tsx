@@ -1,9 +1,8 @@
-import { fetchJsonFromStorage } from "@/lib/storage";
-import type { Profile } from "@/types/content";
+import { AboutRealtime } from "@/components/about/about-realtime";
 
 export default async function ContactPage() {
-  const profile = await fetchJsonFromStorage<Profile>("content/profile.json");
-  const mapUrl = profile.googleMap;
+  // Map is rendered via AboutRealtime content (profiles.googleMap). For now, show a hint.
+  const mapUrl: string | undefined = undefined;
 
   return (
     <main className="container mx-auto max-w-4xl px-4 py-10 space-y-4">
