@@ -1,23 +1,31 @@
-Portfolio (Next.js + Tailwind + Firebase Storage)
+Portfolio (Next.js + Tailwind + shadcn/ui + Firebase)
 
-This is a Next.js portfolio scaffold using the App Router, Tailwind CSS, and a Firebase Storage client for images/assets. It is configured for static export to support GitHub Pages. Firebase Hosting can also be used for SSR if you choose to enable it later.
+Modern portfolio using Next.js App Router, Tailwind CSS, shadcn/ui (New York), and Firebase (Firestore + Storage). Configured for static export (GitHub Pages). Firebase Hosting can be used if you want SSR later.
 
-## Getting Started
+## Project plan and status
 
-First, install dependencies and run the development server:
-
-```bash
-npm ci
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to see the site.
-
-You can start editing the page by modifying `src/app/page.tsx`. The app auto-updates as you edit files.
+- [x] Scaffold Next.js (TypeScript, App Router) and Tailwind v3
+- [x] Configure static export + basePath (`next.config.ts`)
+- [x] Initialize shadcn/ui (New York) and add core components (button, card, input, textarea, navigation-menu, avatar)
+- [x] Header navigation using shadcn NavigationMenu
+- [x] Pages: `about`, `resume`, `portfolio`, `contact`
+- [x] Firebase client (modular): `src/lib/firebase-client.ts`
+- [x] Realtime data from Firestore
+  - `profiles` → About (with avatar from Storage)
+  - `languages`, `techSkills`, `educations`, `experiences` → Resume
+  - `projects` (image paths resolved via Storage) → Portfolio
+- [x] Remove Storage JSON fallback (Firestore-only)
+- [ ] Contact page: render `profiles.googleMap`
+- [ ] Contact form (UI) + Firebase Function (email/notifications)
+- [ ] SEO/meta (title/description per page)
+- [ ] GitHub Pages CI workflow (build and publish `out/`)
+- [ ] Firebase Hosting config (optional SSR)
+- [ ] Analytics/Telemetry (optional)
+- [ ] Testing (unit/smoke) and Lighthouse pass
 
 ## Firebase setup
 
-Create a Firebase project and add a Web App. Then add these environment variables (e.g., `.env.local`):
+Add a Web App in Firebase Console and set `.env.local`:
 
 ```
 NEXT_PUBLIC_FIREBASE_API_KEY=...
@@ -28,21 +36,40 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=...
 ```
 
-Use the helper in `src/lib/firebase.ts` to access Storage.
+Firestore collections (documents you create via Console):
+- `profiles` (1 doc)
+  - `avatar`: string (Storage path, e.g. `avatars/my-avatar.png`)
+  - `name`: string
+  - `title`: string
+  - `presentation`: string[]
+  - `googleMap`: string (embed URL)
+- `languages`, `techSkills`: `{ title: string; value: string }`
+- `educations`, `experiences`: `{ title: string; timeline: string; description: string }`
+- `projects`: `{ category: string; image: string; title: string; url: string }` (image is a Storage path)
+
+Storage: upload images to paths referenced in the docs (e.g., `avatars/...`, `portfolio/...`). The app resolves paths to download URLs at runtime.
+
+## Development
+
+```bash
+npm ci
+npm run dev
+# http://localhost:3000
+```
 
 ## Deploy
 
 ### GitHub Pages (static export)
 
-Set a base path to your repo name when building for Pages:
+If deploying to a project repo (not `username.github.io`), set base path when building:
 
-```
+```bash
 NEXT_PUBLIC_BASE_PATH=/your-repo-name
 npm run build
 ```
 
-Then publish the `out` folder to Pages. You can automate with a GitHub Action.
+Publish the `out/` folder to GitHub Pages (recommended: add a CI workflow).
 
-### Firebase Hosting
+### Firebase Hosting (optional)
 
-Firebase Hosting supports Next.js SSR via the Firebase CLI integration. If you want a purely static site, keep `output: 'export'`. To enable SSR, remove `output: 'export'` in `next.config.ts` and follow Firebase Hosting docs for Next.js.
+For SSR, remove `output: 'export'` and follow Firebase Hosting framework docs for Next.js. For a static site, you can host the `out/` directory.
