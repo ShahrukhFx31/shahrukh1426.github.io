@@ -38,7 +38,7 @@ export function AboutRealtime() {
 
   return (
     <div className="mt-6">
-      <div className="flex items-start gap-6">
+      <div className="flex flex-col sm:flex-row items-start gap-6">
         {avatarUrl && (
           <Image src={avatarUrl} alt={profile.name} width={120} height={120} className="rounded-xl" />
         )}

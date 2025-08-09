@@ -37,7 +37,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
           </button>
         ))}
       </div>
-      <ul className="mt-6 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {filtered.map((p) => (
           <li key={p.title} className="rounded-lg border overflow-hidden">
             <Image
