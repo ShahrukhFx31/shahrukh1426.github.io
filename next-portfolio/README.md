@@ -15,7 +15,7 @@ Modern portfolio using Next.js App Router, Tailwind CSS, shadcn/ui (New York), a
   - `languages`, `techSkills`, `educations`, `experiences` → Resume
   - `projects` (image paths resolved via Storage) → Portfolio
 - [x] Remove Storage JSON fallback (Firestore-only)
-- [ ] Contact page: render `profiles.googleMap`
+- [x] Contact page: render `profiles.googleMap`
 - [ ] Contact form (UI) + Firebase Function (email/notifications)
 - [ ] SEO/meta (title/description per page)
 - [ ] GitHub Pages CI workflow (build and publish `out/`)
@@ -47,7 +47,7 @@ Firestore collections (documents you create via Console):
 - `educations`, `experiences`: `{ title: string; timeline: string; description: string }`
 - `projects`: `{ category: string; image: string; title: string; url: string }` (image is a Storage path)
 
-Storage: upload images to paths referenced in the docs (e.g., `avatars/...`, `portfolio/...`). The app resolves paths to download URLs at runtime.
+Storage: upload images to paths referenced in the docs (e.g., `avatars/...`, `portfolio/...`). The app resolves paths to download URLs at runtime. No Storage JSON fallback is used.
 
 ## Development
 

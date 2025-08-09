@@ -60,5 +60,5 @@
 - DON’T: Use `legacyBehavior` on links or Tailwind v4 features.
 
 ## Open tasks (high-level)
-- Contact page: fetch and render `profiles.googleMap`; add contact form (Firebase Function integration).
+- Contact page: add contact form (Firebase Function integration).
 - SEO/meta per page, GH Pages CI workflow, tests/Lighthouse.
