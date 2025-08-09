@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, limit, onSnapshot, query } from "firebase/firestore";
 import { db, storage } from "@/lib/firebase-client";
 import { getDownloadURL, ref } from "firebase/storage";
