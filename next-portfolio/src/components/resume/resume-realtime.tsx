@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { db } from "@/lib/firebase-client";
 import type { ProgressItem, TimelineItem } from "@/types/content";
@@ -36,9 +36,9 @@ export function ResumeRealtime() {
           <CardHeader><CardTitle>Languages</CardTitle></CardHeader>
           <CardContent>
             {languages ? (
-              <ul className="space-y-2">
+              <ul className="space-y-2 text-foreground">
                 {languages.map((l) => (
-                  <li key={l.title} className="flex justify-between"><span>{l.title}</span><span>{l.value}</span></li>
+                  <li key={l.title} className="flex justify-between"><span>{l.title}</span><span className="text-muted-foreground">{l.value}</span></li>
                 ))}
               </ul>
             ) : (
@@ -50,9 +50,9 @@ export function ResumeRealtime() {
           <CardHeader><CardTitle>My Skills</CardTitle></CardHeader>
           <CardContent>
             {techSkills ? (
-              <ul className="space-y-2">
+              <ul className="space-y-2 text-foreground">
                 {techSkills.map((s) => (
-                  <li key={s.title} className="flex justify-between"><span>{s.title}</span><span>{s.value}</span></li>
+                  <li key={s.title} className="flex justify-between"><span>{s.title}</span><span className="text-muted-foreground">{s.value}</span></li>
                 ))}
               </ul>
             ) : (
@@ -66,12 +66,12 @@ export function ResumeRealtime() {
           <CardHeader><CardTitle>Experience</CardTitle></CardHeader>
           <CardContent>
             {experiences ? (
-              <ul className="space-y-3">
+              <ul className="space-y-3 text-foreground">
                 {experiences.map((e) => (
                   <li key={e.title}>
                     <div className="font-medium">{e.title}</div>
-                    <div className="text-xs text-gray-500">{e.timeline}</div>
-                    <p className="text-sm mt-1 text-gray-700">{e.description}</p>
+                    <div className="text-xs text-muted-foreground">{e.timeline}</div>
+                    <p className="text-sm mt-1 text-muted-foreground">{e.description}</p>
                   </li>
                 ))}
               </ul>
@@ -84,12 +84,12 @@ export function ResumeRealtime() {
           <CardHeader><CardTitle>Education</CardTitle></CardHeader>
           <CardContent>
             {educations ? (
-              <ul className="space-y-3">
+              <ul className="space-y-3 text-foreground">
                 {educations.map((e) => (
                   <li key={e.title}>
                     <div className="font-medium">{e.title}</div>
-                    <div className="text-xs text-gray-500">{e.timeline}</div>
-                    <p className="text-sm mt-1 text-gray-700">{e.description}</p>
+                    <div className="text-xs text-muted-foreground">{e.timeline}</div>
+                    <p className="text-sm mt-1 text-muted-foreground">{e.description}</p>
                   </li>
                 ))}
               </ul>

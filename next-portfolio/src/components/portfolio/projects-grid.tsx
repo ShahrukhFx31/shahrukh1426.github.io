@@ -30,7 +30,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
             key={c}
             onClick={() => setSelected(c)}
             className={`px-3 py-1 rounded-full border text-sm ${
-              selected === c ? "bg-foreground text-background" : "bg-background"
+              selected === c ? "bg-primary text-primary-foreground border-primary" : "bg-background text-foreground"
             }`}
           >
             {c}
@@ -48,9 +48,9 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
               className="aspect-video object-cover"
             />
             <div className="p-3">
-              <div className="font-medium">{p.title}</div>
-              <div className="text-xs text-gray-500">{p.category}</div>
-              <a className="text-sm text-blue-600" href={p.url} target="_blank" rel="noreferrer">Visit</a>
+              <div className="font-medium text-foreground">{p.title}</div>
+              <div className="text-xs text-muted-foreground">{p.category}</div>
+              <a className="text-sm text-primary underline" href={p.url} target="_blank" rel="noreferrer">Visit</a>
             </div>
           </li>
         ))}

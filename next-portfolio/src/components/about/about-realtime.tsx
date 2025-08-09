@@ -44,12 +44,12 @@ export function AboutRealtime() {
         )}
         <div>
           <h2 className="text-xl font-semibold">{profile.name}</h2>
-          {profile.title && <p className="text-gray-600">{profile.title}</p>}
+          {profile.title && <p className="text-muted-foreground">{profile.title}</p>}
         </div>
       </div>
       <div className="mt-6 space-y-3">
         {profile.presentation?.map((p, i) => (
-          <p key={i} className="text-gray-700">{p}</p>
+          <p key={i} className="text-muted-foreground">{p}</p>
         ))}
       </div>
     </div>
