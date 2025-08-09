@@ -1,4 +1,3 @@
-import { AboutRealtime } from "@/components/about/about-realtime";
 
 export default async function ContactPage() {
   // Map is rendered via AboutRealtime content (profiles.googleMap). For now, show a hint.
@@ -9,7 +8,6 @@ export default async function ContactPage() {
       <h1 className="text-2xl font-semibold">Contact</h1>
       {mapUrl && (
         <div className="rounded-lg overflow-hidden border">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
           <iframe
             src={mapUrl}
             width="100%"
