@@ -1,113 +1,90 @@
 "use client";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { collection, limit, onSnapshot, query } from "firebase/firestore";
 import { db, storage } from "@/lib/firebase-client";
 import { getDownloadURL, ref } from "firebase/storage";
 import type { Profile, TechnicalExpertiseItem, SoftSkillItem, TechExperienceItem } from "@/types/content";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import { ProfileHeader } from "@/components/profile/profile-header";
 import { 
-  Mail, Phone, Calendar, MapPin, ChevronDown, Monitor, Code, Database, Network, 
-  TestTube, Zap, Users, Settings, MessageCircle, Globe, Server, Shield, 
-  GitBranch, Github, Gitlab, Cloud, Droplets, Building2, Ticket, Trello, 
-  MousePointer, Bot, FileText, Atom, Smartphone, RotateCcw, Circle, Search
+  Code, Palette, Smartphone, Globe, Users, Target, 
+  Lightbulb, Zap, Heart, Star,
+  Database, Server, Cloud,
+  Circle, FileText, Cpu,
+  Database as Db, GitBranch, Layers,
+  Coffee, Package
 } from "lucide-react";
 
-// Mock data for demonstration - these would come from Firestore in production
+// Mock data for demonstration
 const technicalExpertise: TechnicalExpertiseItem[] = [
   {
-    title: "Frontend Engineering",
-    description: "Expert in crafting dynamic and responsive web interfaces using Angular, RxJS, HTML, CSS, JavaScript, and TypeScript. Adept at creating intuitive user experiences and ensuring cross-browser compatibility.",
-    icon: Monitor
+    title: "Frontend Development",
+    description: "Building responsive and interactive user interfaces with modern frameworks like React, Angular, and Vue.js.",
+    icon: Code
   },
   {
-    title: "Backend Architecture",
-    description: "Specializes in developing scalable server-side solutions with Node.js, Express.js, and NestJS. Proficient in using JavaScript, TypeScript, and Socket.io to build robust backend services and real-time applications.",
-    icon: Server
+    title: "UI/UX Design",
+    description: "Creating intuitive and visually appealing designs that enhance user experience and engagement.",
+    icon: Palette
   },
   {
-    title: "Distributed Systems",
-    description: "Experienced in implementing distributed technologies such as Redis, RabbitMQ, and Kafka for managing real-time data and ensuring high availability and scalability of applications.",
-    icon: Network
+    title: "Mobile Development",
+    description: "Developing cross-platform mobile applications using React Native and Flutter for iOS and Android.",
+    icon: Smartphone
   },
   {
-    title: "Database Solutions",
-    description: "Skilled in managing and optimizing databases including MongoDB, MySQL, and PostgreSQL. Expertise in designing efficient data models and ensuring reliable data storage and retrieval.",
-    icon: Database
-  },
-  {
-    title: "Testing And Quality Assurance",
-    description: "Proficient in employing testing frameworks such as Jest, Mocha, Chai, Jasmine, and Karma to ensure code quality and reliability through comprehensive unit and integration testing.",
-    icon: TestTube
+    title: "Web Development",
+    description: "Building scalable web applications with modern technologies and best practices.",
+    icon: Globe
   }
 ];
 
 const softSkills: SoftSkillItem[] = [
   {
-    title: "Fast Learner",
-    description: "I have the ability to quickly acquire new knowledge and adapt to changing technological environments.",
-    icon: Zap
-  },
-  {
-    title: "Teamwork",
-    description: "I collaborate effectively in multidisciplinary projects and communicate clearly with team members.",
+    title: "Team Leadership",
+    description: "Leading development teams and mentoring junior developers to achieve project goals.",
     icon: Users
   },
   {
     title: "Problem Solving",
-    description: "I am creative and efficient in identifying and solving technical problems.",
-    icon: Settings
+    description: "Analyzing complex problems and implementing effective solutions with attention to detail.",
+    icon: Target
   },
   {
-    title: "Effective Communication",
-    description: "I have the skill to convey ideas clearly and concisely, both technically and non-technically.",
-    icon: MessageCircle
+    title: "Innovation",
+    description: "Staying updated with latest technologies and bringing innovative ideas to projects.",
+    icon: Lightbulb
+  },
+  {
+    title: "Fast Learning",
+    description: "Quickly adapting to new technologies and frameworks as project requirements evolve.",
+    icon: Zap
+  },
+  {
+    title: "Passion",
+    description: "Maintaining high enthusiasm and dedication towards delivering quality software solutions.",
+    icon: Heart
+  },
+  {
+    title: "Excellence",
+    description: "Striving for excellence in every project with focus on performance and user experience.",
+    icon: Star
   }
 ];
 
-// Technology icons with Lucide React icons
 const techExperience: TechExperienceItem[] = [
-  { name: "HTML", icon: Globe },
-  { name: "Express.js", icon: Code },
-  { name: "Socket.io", icon: Zap },
-  { name: "Jest", icon: TestTube },
-  { name: "Mocha", icon: Circle },
-  { name: "Chai", icon: Circle },
-  { name: "Karma", icon: Circle },
-  { name: "Jasmine", icon: Circle },
-  { name: "MongoDB", icon: Database },
-  { name: "PostgreSQL", icon: Database },
-  { name: "MySQL", icon: Database },
-  { name: "CSS", icon: Shield },
-  { name: "Redis", icon: Circle },
-  { name: "RabbitMQ", icon: Circle },
-  { name: "Kafka", icon: Circle },
-  { name: "Elasticsearch", icon: Search },
-  { name: "Logstash", icon: FileText },
-  { name: "Kibana", icon: Circle },
-  { name: "Docker", icon: Circle },
-  { name: "Kubernetes", icon: Circle },
-  { name: "Git", icon: GitBranch },
-  { name: "GitHub", icon: Github },
-  { name: "JavaScript", icon: Circle },
-  { name: "GitLab", icon: Gitlab },
-  { name: "Bitbucket", icon: Circle },
-  { name: "AWS", icon: Cloud },
-  { name: "DigitalOcean", icon: Droplets },
-  { name: "Azure", icon: Building2 },
-  { name: "Jira", icon: Ticket },
-  { name: "Basecamp", icon: Building2 },
-  { name: "Trello", icon: Trello },
-  { name: "Cursor", icon: MousePointer },
-  { name: "Generative AI", icon: Bot },
-  { name: "TypeScript", icon: FileText },
+  { name: "React", icon: Circle },
   { name: "Angular", icon: Circle },
-  { name: "React", icon: Atom },
-  { name: "Ionic", icon: Smartphone },
-  { name: "RxJS", icon: RotateCcw },
-  { name: "Node.js", icon: Circle }
+  { name: "Node.js", icon: Server },
+  { name: "TypeScript", icon: FileText },
+  { name: "Python", icon: Cpu },
+  { name: "Java", icon: Coffee },
+  { name: "MongoDB", icon: Database },
+  { name: "PostgreSQL", icon: Db },
+  { name: "AWS", icon: Cloud },
+  { name: "Docker", icon: Package },
+  { name: "Git", icon: GitBranch },
+  { name: "CI/CD", icon: Layers }
 ];
 
 export function AboutRealtime() {
@@ -134,131 +111,86 @@ export function AboutRealtime() {
     return () => unsub();
   }, []);
 
-  if (!profile) {
-    return (
-      <div className="min-h-screen bg-gray-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
-          <p className="text-sm sm:text-base text-gray-400">Add a document to the <code className="bg-gray-800 px-2 py-1 rounded text-xs sm:text-sm">profiles</code> collection and upload the avatar image to Firebase Storage.</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 max-w-7xl">
-        {/* Profile Header */}
-        <div className="bg-gray-800 rounded-xl sm:rounded-2xl p-4 sm:p-6 mb-6 sm:mb-8 lg:mb-12">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-6">
-            <div className="flex items-center gap-3 sm:gap-4">
-              {avatarUrl && (
-                <div className="relative flex-shrink-0">
-                  <Image 
-                    src={avatarUrl} 
-                    alt={profile.name} 
-                    width={64}
-                    height={64}
-                    className="w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full border-2 border-yellow-500" 
-                  />
-                </div>
-              )}
-              <div className="min-w-0 flex-1">
-                <h1 className="text-lg sm:text-xl lg:text-2xl xl:text-3xl font-bold text-white truncate">{profile.name}</h1>
-                <Badge variant="secondary" className="bg-gray-700 text-gray-300 border-gray-600 text-xs sm:text-sm mt-1">
-                  {profile.title || "Technical Lead (Full Stack Development)"}
-                </Badge>
-              </div>
-            </div>
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className="border-yellow-500 text-yellow-500 hover:bg-yellow-500 hover:text-gray-900 text-xs sm:text-sm w-full sm:w-auto"
-            >
-              Show Contacts
-            </Button>
-          </div>
-        </div>
+    <div className="space-y-8">
+      {/* Profile Header */}
+      <ProfileHeader showSocials={true} />
 
-        {/* About Me Section */}
-        <section className="mb-8 sm:mb-12 lg:mb-16">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4 lg:mb-6 relative">
-            About Me
-            <div className="absolute bottom-0 left-0 w-8 sm:w-12 h-0.5 sm:h-1 bg-yellow-500 rounded"></div>
-          </h2>
-          <div className="bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8">
-            <p className="text-sm sm:text-base lg:text-lg text-gray-300 leading-relaxed sm:leading-loose">
-              Results-driven Full Stack Developer with 8 years of experience building scalable web and mobile applications. 
-              Proficient in front-end (Angular, React), back-end (Node.js, Express), and cross-platform mobile development (Ionic). 
-              Skilled in working with MongoDB, PostgreSQL, RESTful APIs, and real-time features using Socket.io. 
-              Experienced in DevOps with Docker, Kubernetes, and CI/CD. Leverage AI tools like Cursor and Generative AI assistants 
-              to enhance productivity, code quality, and delivery speed. Strong collaborator with a focus on delivering high-quality solutions.
-            </p>
+      {/* About Me Section */}
+      <Card className="bg-gray-800 border-gray-700">
+        <CardContent className="p-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-4">About Me</h2>
+          <div className="text-gray-300 space-y-4">
+            {profile?.presentation?.map((paragraph, index) => (
+              <p key={index} className="leading-relaxed">
+                {paragraph}
+              </p>
+            )) || (
+              <>
+                <p className="leading-relaxed">
+                  I am a passionate Full Stack Developer with over 5 years of experience in building scalable web applications. 
+                  I specialize in modern JavaScript frameworks, cloud technologies, and creating intuitive user experiences.
+                </p>
+                <p className="leading-relaxed">
+                  My journey in software development started with a curiosity to understand how things work, 
+                  which has evolved into a deep passion for creating solutions that make a difference. 
+                  I believe in writing clean, maintainable code and staying updated with the latest industry trends.
+                </p>
+              </>
+            )}
           </div>
-        </section>
+        </CardContent>
+      </Card>
 
-        {/* What I'm Doing Section */}
-        <section className="mb-8 sm:mb-12 lg:mb-16">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 lg:mb-8 relative">
-            What I&apos;m Doing
-            <div className="absolute bottom-0 left-0 w-8 sm:w-12 h-0.5 sm:h-1 bg-yellow-500 rounded"></div>
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-            {technicalExpertise.map((item, index) => {
-              const IconComponent = item.icon;
+      {/* What I&apos;m Doing Section */}
+      <Card className="bg-gray-800 border-gray-700">
+        <CardContent className="p-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">What I&apos;m Doing</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {technicalExpertise.map((expertise, index) => {
+              const IconComponent = expertise.icon;
               return (
-                <Card key={index} className="bg-gray-800 border-gray-700 hover:border-yellow-500 transition-colors h-full">
-                  <CardContent className="p-4 sm:p-6 h-full">
-                    <div className="flex items-start gap-3 sm:gap-4 h-full">
-                      <div className="text-yellow-500 flex-shrink-0">
-                        <IconComponent size={24} />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h3 className="font-semibold text-white mb-2 text-sm sm:text-base lg:text-lg">{item.title}</h3>
-                        <p className="text-gray-400 text-xs sm:text-sm lg:text-base leading-relaxed">{item.description}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div key={index} className="text-center group">
+                                     <div className="w-16 h-16 bg-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
+                     <IconComponent size={28} />
+                   </div>
+                  <h3 className="text-lg font-semibold text-white mb-2">{expertise.title}</h3>
+                  <p className="text-sm text-gray-400 leading-relaxed">{expertise.description}</p>
+                </div>
               );
             })}
           </div>
-        </section>
+        </CardContent>
+      </Card>
 
-        {/* Soft Skills Section */}
-        <section className="mb-8 sm:mb-12 lg:mb-16">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 lg:mb-8 relative">
-            Soft Skills
-            <div className="absolute bottom-0 left-0 w-8 sm:w-12 h-0.5 sm:h-1 bg-yellow-500 rounded"></div>
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      {/* Soft Skills Section */}
+      <Card className="bg-gray-800 border-gray-700">
+        <CardContent className="p-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">Soft Skills</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {softSkills.map((skill, index) => {
               const IconComponent = skill.icon;
               return (
-                <Card key={index} className="bg-gray-800 border-gray-700 hover:border-yellow-500 transition-colors h-full">
-                  <CardContent className="p-4 sm:p-6 h-full">
-                    <div className="flex items-start gap-3 sm:gap-4 h-full">
-                      <div className="text-yellow-500 flex-shrink-0">
-                        <IconComponent size={20} />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <h3 className="font-semibold text-white mb-2 text-sm sm:text-base">{skill.title}</h3>
-                        <p className="text-gray-400 text-xs sm:text-sm leading-relaxed">{skill.description}</p>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div key={index} className="flex items-start gap-4 p-4 bg-gray-700 rounded-lg group hover:bg-gray-600 transition-colors">
+                                     <div className="w-12 h-12 bg-yellow-500 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                     <IconComponent size={24} />
+                   </div>
+                  <div>
+                    <h3 className="text-lg font-semibold text-white mb-1">{skill.title}</h3>
+                    <p className="text-sm text-gray-400 leading-relaxed">{skill.description}</p>
+                  </div>
+                </div>
               );
             })}
           </div>
-        </section>
+        </CardContent>
+      </Card>
 
-        {/* Tech Experience Section */}
-        <section className="mb-8 sm:mb-12 lg:mb-16">
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 lg:mb-8 relative">
-            Tech Experience
-            <div className="absolute bottom-0 left-0 w-8 sm:w-12 h-0.5 sm:h-1 bg-yellow-500 rounded"></div>
-          </h2>
-          <div className="bg-gray-800 rounded-lg sm:rounded-xl p-4 sm:p-6 lg:p-8">
+      {/* Tech Experience Section */}
+      <Card className="bg-gray-800 border-gray-700">
+        <CardContent className="p-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white mb-6">Tech Experience</h2>
+          <div className="bg-gray-700 rounded-lg p-4 sm:p-6 lg:p-8">
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 xl:grid-cols-12 gap-3 sm:gap-4 lg:gap-6">
               {techExperience.map((tech, index) => {
                 const IconComponent = tech.icon;
@@ -275,8 +207,8 @@ export function AboutRealtime() {
               })}
             </div>
           </div>
-        </section>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

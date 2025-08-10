@@ -1,8 +1,10 @@
-import { Header } from "@/components/header";
-import { ResponsiveContainer } from "@/components/layout/responsive-container";
-import { redirect } from "next/navigation";
+import { AboutRealtime } from "@/components/about/about-realtime";
+import { UnifiedLayout } from "@/components/layout/unified-layout";
 
 export default function HomePage() {
-  // Redirect to about page as the main landing page
-  redirect("/about");
+  return (
+    <UnifiedLayout>
+      <AboutRealtime />
+    </UnifiedLayout>
+  );
 }
