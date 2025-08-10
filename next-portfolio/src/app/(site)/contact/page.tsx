@@ -1,14 +1,14 @@
 
-import { BottomNavLayout } from "@/components/layout/bottom-nav-layout";
+import { UnifiedLayout } from "@/components/layout/unified-layout";
 import { Mail, Phone, MapPin } from "lucide-react";
 
 export default function ContactPage() {
   return (
-    <BottomNavLayout>
+    <UnifiedLayout>
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-4">Contact</h1>
-          <p className="text-gray-300">This page uses the bottom navigation layout.</p>
+          <p className="text-gray-300">This page uses responsive navigation that adapts to screen size.</p>
         </div>
         
         <div className="bg-gray-800 rounded-xl p-6">
@@ -76,7 +76,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
-    </BottomNavLayout>
+    </UnifiedLayout>
   );
 }
 

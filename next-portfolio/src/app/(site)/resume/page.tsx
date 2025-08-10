@@ -1,12 +1,12 @@
-import { SidebarLayout } from "@/components/layout/sidebar-layout";
+import { UnifiedLayout } from "@/components/layout/unified-layout";
 
 export default function ResumePage() {
   return (
-    <SidebarLayout>
+    <UnifiedLayout showProfile={true}>
       <div className="space-y-8">
         <div>
           <h1 className="text-3xl font-bold text-white mb-4">Resume</h1>
-          <p className="text-gray-300">This page uses the sidebar navigation layout.</p>
+          <p className="text-gray-300">This page uses responsive navigation that adapts to screen size.</p>
         </div>
         
         <div className="bg-gray-800 rounded-xl p-6">
@@ -30,7 +30,7 @@ export default function ResumePage() {
           </div>
         </div>
       </div>
-    </SidebarLayout>
+    </UnifiedLayout>
   );
 }
 

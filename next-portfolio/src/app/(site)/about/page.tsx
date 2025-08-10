@@ -1,11 +1,11 @@
 import { AboutRealtime } from "@/components/about/about-realtime";
-import { BottomNavLayout } from "@/components/layout/bottom-nav-layout";
+import { UnifiedLayout } from "@/components/layout/unified-layout";
 
 export default async function AboutPage() {
   return (
-    <BottomNavLayout>
+    <UnifiedLayout>
       <AboutRealtime />
-    </BottomNavLayout>
+    </UnifiedLayout>
   );
 }
 
