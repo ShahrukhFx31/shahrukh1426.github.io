@@ -39,4 +39,22 @@ export type TimelineItem = {
   description: string;
 };
 
+// New types for enhanced about page
+export type TechnicalExpertiseItem = {
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ size?: number }>;
+};
+
+export type SoftSkillItem = {
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ size?: number }>;
+};
+
+export type TechExperienceItem = {
+  name: string;
+  icon: React.ComponentType<{ size?: number }>;
+};
+
 
